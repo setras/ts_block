@@ -1,3 +1,14 @@
+Required enable auditing logon/logoff by using Local Group Policy (gpedit.msc):
+=============================================================================== 
+- Computer Configuration/Windows Settings/Security Settings/Local Policies/Audit Policy
+- There are two types of auditing that address logging on, they are Audit Logon Events and Audit Account Logon Events.
+- Enable for errors
+
+Test script
+===========
+from command-line - CSCRIPT.EXE ts_block.vbs
+
+
 ts_block.vbs - Blocks brute force Terminal Services login attempts
 Copyright 2011 Wellbury LLC - See LICENSE for license information
 
