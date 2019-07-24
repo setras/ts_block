@@ -9,8 +9,8 @@ via command line
   auditpol.exe /get /Category:*
   
 -set option: 
-  auditpol /set /subcategory:"Logon"  /failure:enabled
-  subcategory in deutsch = "Anmelden"
+  auditpol /set /subcategory:"Logon"  /failure:enable
+  German language: auditpol /set /subcategory:"Anmelden" /failure:enable
 
 Audit Policy Reset on Restart or every 16 hours
 ===============================================
