@@ -4,6 +4,34 @@ Required enable auditing logon/logoff by using Local Group Policy (gpedit.msc):
 - There are two types of auditing that address logging on, they are Audit Logon Events and Audit Account Logon Events.
 - Enable for errors
 
+via command line
+-list settings
+  auditpol.exe /get /Category:*
+  
+-set option: 
+  auditpol /set /subcategory:"Logon"  /failure:enabled
+  subcategory in deutsch = "Anmelden"
+
+Audit Policy Reset on Restart or every 16 hours
+===============================================
+There can be conficting setting in the policy configuration that cause the Login audit setting to be reset.
+See this article on how to solve this problem. 
+https://social.technet.microsoft.com/Forums/windowsserver/en-US/03cb345e-baf1-45b7-97e1-b3b7a9ebe119/audit-policy-reset-on-restart
+
+#########################################
+extract from this post
+-------
+Turns out the Local Security Policy thought it needed to apply audit policy settings even though every Advanced Audit Policy Configuration item was marked "Not Configured."  On reboot or when forcing local policy application with "GPUPDATE.EXE /force" all advanced audit policy was being wiped out.  this was confirmed by looking at the output from "GPRESULT.EXE /H ResultsBefore.htm."  This showed audit policy was being applied.
+
+I needed to remove the files that Local Security Policy used to track audit policy.  Removing 
+c:\Windows\security\audit\audit.csv, 
+c:\Windows\System32\GroupPolicy\Machine\Microsoft\WindowsNT\Audit\audit.csv and 
+c:\Windows\System32\GroupPolicy\gpt.ini 
+then rebooting put Local Security Policy back into a state where it didn't think it needed to apply advanced audit policy.  Any changes using AUDITPOL.EXE or AuditSetSystemPolicy(...) then survived local policy application.  "GPRESULT /H ResultsAfter.htm" also confirmed that audit policy was not being  applied.
+
+A couple of caveats regarding advanced audit policy...per Ned's blog post above, you CANNOT rely on the Local Security Policy MMC console to accurately reflect the active policy settings...use AUDITPOL.EXE.  Also once you set ANY advanced audit policy setting in Local Security Policy it will overwrite all advanced settings when the policy is applied.  AFAIK there is no way short of manually deleting the above files to tell Local Security Policy to forget advanced audit settings.
+#########################################
+
 Test script
 ===========
 from command-line - CSCRIPT.EXE ts_block.vbs
