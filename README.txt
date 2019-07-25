@@ -19,7 +19,7 @@ See this article on how to solve this problem.
 https://social.technet.microsoft.com/Forums/windowsserver/en-US/03cb345e-baf1-45b7-97e1-b3b7a9ebe119/audit-policy-reset-on-restart
 
 #########################################
-extract from this post
+Fix from this post
 -------
 Turns out the Local Security Policy thought it needed to apply audit policy settings even though every Advanced Audit Policy Configuration item was marked "Not Configured."  On reboot or when forcing local policy application with "GPUPDATE.EXE /force" all advanced audit policy was being wiped out.  this was confirmed by looking at the output from "GPRESULT.EXE /H ResultsBefore.htm."  This showed audit policy was being applied.
 
