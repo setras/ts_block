@@ -25,7 +25,7 @@ Turns out the Local Security Policy thought it needed to apply audit policy sett
 
 I needed to remove the files that Local Security Policy used to track audit policy.  Removing 
 c:\Windows\security\audit\audit.csv, 
-c:\Windows\System32\GroupPolicy\Machine\Microsoft\WindowsNT\Audit\audit.csv and 
+c:\Windows\System32\GroupPolicy\Machine\Microsoft\Windows NT\Audit\audit.csv and 
 c:\Windows\System32\GroupPolicy\gpt.ini 
 then rebooting put Local Security Policy back into a state where it didn't think it needed to apply advanced audit policy.  Any changes using AUDITPOL.EXE or AuditSetSystemPolicy(...) then survived local policy application.  "GPRESULT /H ResultsAfter.htm" also confirmed that audit policy was not being  applied.
 
